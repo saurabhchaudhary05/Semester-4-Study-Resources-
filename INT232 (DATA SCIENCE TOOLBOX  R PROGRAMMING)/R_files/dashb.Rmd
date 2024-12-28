@@ -1,0 +1,57 @@
+---
+title: "Dashboard1"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: scroll
+---
+
+```{r setup, include=FALSE}
+```
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(billboard)
+library(knitr)
+new<-read.csv("student.csv",TRUE,",")
+view(new)
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+# defining vector
+x <- c(7, 15, 23, 12, 44, 56, 32)
+ 
+# output to be present as PNG file
+png(file = "barplot.png")
+# plotting vector
+barplot(x, xlab = "MY Audience",
+        ylab = "Count", col = "white",
+        col.axis = "darkgreen",
+        col.lab = "darkgreen")
+ 
+# saving the file
+dev.off()
+
+
+
+```
+
+## Column {data-width="350"}
+
+### Chart B
+
+```{r}
+
+```
+
+### Chart C
+
+```{r}
+
+```
+
+```{r}
+
+```

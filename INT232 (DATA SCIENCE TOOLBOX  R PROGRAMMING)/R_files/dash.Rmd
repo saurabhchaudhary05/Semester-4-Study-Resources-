@@ -1,0 +1,180 @@
+---
+title: "Visualized Dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+  vertical_layout: scroll
+  theme:
+      version: 4
+      bg: "#29343D"
+      fg: "#1E2025" 
+      
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard) #we can use flexdashboard to publish groups of related #data visualizations as a dashboard. A wide variety of components can be #included in flexdashboard layouts,
+library(knitr) #Knitr is a package in the R programming language that allows #users to integrate R code into documents like LaTeX, LyX, HTML, Markdown,
+library(ggplot2) #ggplot2 is a plotting package that provides helpful commands #to create complex plots from data in a data frame
+library(plotly) #Plotly is an open-source module  that is used for #data visualization and supports various graphs like line charts, scatter #plots, bar charts, histograms, area plots, etc. 
+library(dplyr) #The dplyr package in R Programming Language is a structure of #data manipulation that provides a uniform set of verbs,helping to resolve the #most frequent data manipulation hurdles.
+```
+```{r}
+file1=read.csv(file.choose())
+```
+
+Ref.1{data-icon="fa-list"} 
+===================================
+
+
+### BarChart 
+
+```{r}
+#barchart
+# Create the data for the chart
+A <- c(file1$ArticlesType1)
+B <- c(file1$Months)
+
+ #Plot the bar chart with text features
+barplot(A, names.arg = B, xlab = "Month",
+		ylab = " Number of Articles", col = "steelblue",
+		main = "Article vs Month ")
+
+# Add data labels on top of each bar
+#text(
+#x = barplot(A, names.arg = B, col = "pink", ylim = c(0, max(A) * 1.2)),
+#y = A + 1, labels = A, pos = 3, cex = 1.2, col = "orange"
+#)
+
+
+
+```
+
+
+Column
+------------------
+
+### LineChart 
+
+```{r}
+#linechart
+# Create the data for the chart.
+v <- c(file1$ArticlesType1)
+t <- c(file1$ArticlesType2)
+m <- c(file1$ArticlesType3)
+
+# Plot the bar chart.
+plot(v, type = "o", col = "red",
+	xlab = "Month", ylab = "Article Written ",
+	main = "Article Written chart",ylim=range(0,40))
+
+lines(t, type = "o", col = "blue")
+lines(m, type = "o", col = "green")
+
+
+
+```
+
+
+Ref.2 {data-icon="fa-list"}
+==============================
+
+### Scatter-Plot {data-padding=50}
+
+```{r}
+#scatter plot
+# Get the input values.
+input <- mtcars[, c('wt', 'mpg')]
+
+# Plot the chart for cars with
+# weight between 1.5 to 4 and
+# mileage between 10 and 25.
+plot(x = input$wt, y = input$mpg,
+	xlab = "Weight",
+	ylab = "Milage",
+	xlim = c(1.5, 4),
+	ylim = c(10, 25),	 
+	main = "Weight vs Milage"
+)
+
+
+
+
+
+ 
+# saving the file
+#Dev.off()
+
+```
+
+
+Column {data-width:150}
+--------------
+
+### Histogram Chart
+```{r}
+#Histogram chart
+library(ggplot2)
+
+# Creating data for the graph.  
+v <-c(file1$weight)  
+# Giving a name to the chart file.  
+  
+# Creating the histogram.  
+m<-hist(v,xlab = "Weight",ylab="Frequency",col = "darkmagenta",border = "pink", breaks = 5,ylim=range(0,4),main="Weight-Frequency")  
+#Setting labels  
+text(m$mids,m$counts,labels=m$counts, adj=c(0.5, -0.5))  
+# Saving the file.  
+ 
+
+
+```
+
+
+Ref.3 {data-icon="fa-list"} 
+============================
+
+
+### Pie-Chart
+```{r}
+# Get the library.
+library(plotrix)
+
+# Create data for the graph.
+geeks <- c(18, 46, 35, 71,38)
+labels <- c(file1$state)
+
+
+piepercent<- round(100 * geeks / sum(geeks), 1)
+
+# Plot the chart.
+pie3D(geeks, labels = piepercent,
+	main = "CityPollution pie chart", col = rainbow(length(geeks)))
+legend("topright", c("Mumbai", "Pune", "Chennai", "Bangalore","other"),
+					cex = 0.5, fill = rainbow(length(geeks)))
+```
+
+Column
+-----------
+ 
+
+### Box-Chart
+```{r}
+# Load the dataset
+#Each box in the plot represents the distribution of engine displacements for a specific gear type.
+data(mtcars)
+
+# Set up plot colors
+my_colors <- c("yellow", "red", "blue", "pink")
+
+# Create the box plot with customized aesthetics
+boxplot(disp ~ gear, data = mtcars,
+		main = "displacement by Gear", xlab = "Gear", ylab = "displacement",
+		col = my_colors, border = "blue", notch = TRUE, notchwidth = 0.5,
+		medcol = "white", whiskcol = "green", boxwex = 0.5, outpch = 19,
+		outcol = "orange")
+
+# Add a legend
+legend("topright", legend = unique(mtcars$gear), 
+	fill = my_colors, border = "black", title = "Gear")
+
+
+```
